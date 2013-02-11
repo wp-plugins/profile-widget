@@ -4,7 +4,7 @@
  * Plugin Name: Profile widget
  * Plugin URI: http://geek.ryanhellyer.net/products/profile-widget/
  * Description: A widget for displaying user profile information on single post pages
- * Version: 1.0.1
+ * Version: 1.0.2
  * Author: Ryan Hellyer / Metronet
  * Author URI: http://geek.ryanhellyer.net/
  *
@@ -68,6 +68,7 @@ class Profile_Widget extends WP_Widget {
 	 */
 	public function widget( $args, $instance ) {
 		global $post;
+		extract( $args );
 
 		// Check if widget should be displayed here (contains additional logic to allow for overriding via themes and other plugins)
 		if ( ! is_single() )
@@ -88,7 +89,9 @@ class Profile_Widget extends WP_Widget {
 
 		echo get_avatar( $post->post_author, $instance['size'] );
 		$description = get_the_author_meta( 'description', $post->post_author );
-		echo apply_filters( 'the_content', $description );
+		$description = wptexturize( $description ); // Apply texturising filter - not using the_content() due to it causing things like share icons to be displayed in the sidebar
+		$description = wpautop( $description ); // Apply auto paragraph filter - not using the_content() due to it causing things like share icons to be displayed in the sidebar
+		echo $description;
 
 		// Display after widget code
 		echo $after_widget;
