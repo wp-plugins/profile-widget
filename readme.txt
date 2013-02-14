@@ -29,6 +29,7 @@ A. There is none.
 == Screenshots ==
 
 1. The <a href="http://geek.ryanhellyer.net/products/profile-widget/">Profile widget</a> in action.
+2. The <a href="http://geek.ryanhellyer.net/products/profile-widget/">Profile widget</a> as shown in the widgets section of the admin panel.
 
 == Changelog ==
 
