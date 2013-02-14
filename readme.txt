@@ -26,8 +26,14 @@ A. There is none.
 
 <a href="http://geek.ryanhellyer.net/products/profile-widget/">See the Profile widget page for more information</a>.
 
+== Screenshots ==
+
+1. The <a href="http://geek.ryanhellyer.net/products/profile-widget/">Profile widget</a> in action.
 
 == Changelog ==
+
+= 1.0.2 (13/1/2013) =
+* Modified the readme.txt file
 
 = 1.0.2 (10/1/2013) =
 * Fixed bug with before and after widget text
