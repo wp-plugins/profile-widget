@@ -13,11 +13,11 @@ msgstr "Profil"
 
 #: 
 msgid "Widget for displaying user biographical information"
-msgstr "Widget für biographische angaben"
+msgstr "Widget zur Anzeige biographischer Angaben"
 
 #: 
 msgid "Profile Widget"
-msgstr "Profil widget"
+msgstr "Profil Widget"
 
 #: 
 msgid "Title"
