@@ -2,11 +2,11 @@
 
 /**
  * Plugin Name: Profile widget
- * Plugin URI: http://geek.ryanhellyer.net/products/profile-widget/
+ * Plugin URI: https://geek.hellyer.kiwi/products/profile-widget/
  * Description: A widget for displaying user profile information on single post pages
- * Version: 1.0.2
- * Author: Ryan Hellyer / Metronet
- * Author URI: http://geek.ryanhellyer.net/
+ * Version: 1.1
+ * Author: Ryan Hellyer
+ * Author URI: https://geek.hellyer.kiwi/
  *
  * The implementation of widget code is based on work by Justin Tadlock
  * http://justintadlock.com/archives/2009/05/26/the-complete-guide-to-creating-widgets-in-wordpress-28
@@ -21,18 +21,34 @@
  * Register the widget
  *
  * @since 1.0
- * @author Ryan Hellyer <ryan@metronet.no>
+ * @author Ryan Hellyer <ryanhellyer@gmail.com>
  */
-function profwid_load_widgets() {
+function profile_widget_load_widgets() {
 	register_widget( 'Profile_Widget' );
 }
-add_action( 'widgets_init', 'profwid_load_widgets' );
+add_action( 'widgets_init', 'profile_widget_load_widgets' );
+
+/**
+ * Adding multilingual support
+ *
+ * @since 1.1
+ * @author Ryan Hellyer <ryanhellyer@gmail.com>
+ */
+function profile_widget_textdomain() {
+	// Localization
+	load_plugin_textdomain(
+		'profile-widget', // Unique identifier
+		false, // Deprecated abs path
+		dirname( plugin_basename( __FILE__ ) ) . '/languages/' // Languages folder
+	);
+}
+add_action( 'admin_init', 'profile_widget_textdomain' );
 
 /**
  * Profile Widget class.
  *
  * @since 1.0
- * @author Ryan Hellyer <ryan@metronet.no>
+ * @author Ryan Hellyer <ryanhellyer@gmail.com>
  */
 class Profile_Widget extends WP_Widget {
 
@@ -40,28 +56,30 @@ class Profile_Widget extends WP_Widget {
 	 * Widget setup.
 	 *
 	 * @since 1.0
-	 * @author Ryan Hellyer <ryan@metronet.no>
+	 * @author Ryan Hellyer <ryanhellyer@gmail.com>
 	 */
 	public function __construct() {
-		/* Widget settings. */
-		$widget_ops = array( 'classname' => 'profwid', 'description' => __( 'Widget for display user bio information', 'profwid' ) );
 
-		/* Widget control settings. */
+		// Widget settings.
+		$widget_ops = array( 'classname' => 'profile-widget', 'description' => __( 'Widget for displaying user biographical information', 'profile-widget' ) );
+
+		// Widget control settings.
 		$control_ops = array( 'width' => 300, 'height' => 350, 'id_base' => 'profwid-widget' );
 
-		/* Create the widget. */
+		// Create the widget.
 		$this->WP_Widget(
 			'profwid-widget',
-			__( 'Profile Widget', 'profwid' ),
+			__( 'Profile Widget', 'profile-widget' ),
 			$widget_ops, $control_ops
 		);
+
 	}
 
 	/**
 	 * How to display the widget on the screen.
 	 * 
 	 * @since 1.0
-	 * @author Ryan Hellyer <ryan@metronet.no>
+	 * @author Ryan Hellyer <ryanhellyer@gmail.com>
 	 * @global int $post
 	 * @param array $args     Contains the arguments, but is disused here
 	 * @param array $instance Contains the widget settings
@@ -73,7 +91,7 @@ class Profile_Widget extends WP_Widget {
 		// Check if widget should be displayed here (contains additional logic to allow for overriding via themes and other plugins)
 		if ( ! is_single() )
 			$return = true;
-		$return = apply_filters( 'profwid_confirm_display' ); // Used to modify result via plugins
+		$return = apply_filters( 'profile_widget_confirm_display', $return ); // Used to modify result via plugins
 		if ( true == $return )
 			return;
 
@@ -102,7 +120,7 @@ class Profile_Widget extends WP_Widget {
 	 * Sanitise data inputs
 	 * 
 	 * @since 1.0
-	 * @author Ryan Hellyer <ryan@metronet.no>
+	 * @author Ryan Hellyer <ryanhellyer@gmail.com>
 	 */
 	public function update( $input, $old ) {
 
@@ -117,13 +135,13 @@ class Profile_Widget extends WP_Widget {
 	 * Displays the form on the widget page
 	 * 
 	 * @since 1.0
-	 * @author Ryan Hellyer <ryan@metronet.no>
+	 * @author Ryan Hellyer <ryanhellyer@gmail.com>
 	 */
 	public function form( $instance ) {
 
 		// Set up some default widget settings
 		$defaults = array(
-			'title' => __( 'Profile', 'profwid'),
+			'title' => __( 'Profile', 'profile-widget'),
 			'size'  => '120',
 		);
 		$instance = wp_parse_args( (array) $instance, $defaults );
@@ -131,12 +149,12 @@ class Profile_Widget extends WP_Widget {
 		?>
 
 		<p>
-			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'profwid' ); ?></label>
-			<input id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" value="<?php echo $instance['title']; ?>" style="width:100%;" />
+			<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php _e( 'Title', 'profile-widget' ); ?>:</label>
+			<input id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" value="<?php echo esc_attr( $instance['title'] ); ?>" style="width:100%;" />
 		</p>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'size' ); ?>"><?php _e( 'Size:', 'profwid' ); ?></label>
-			<input id="<?php echo $this->get_field_id( 'size' ); ?>" name="<?php echo $this->get_field_name( 'size' ); ?>" value="<?php echo $instance['size']; ?>" style="width:100%;" />
+			<label for="<?php echo esc_attr( $this->get_field_id( 'size' ) ); ?>"><?php _e( 'Image Size', 'profile-widget' ); ?>:</label>
+			<input id="<?php echo esc_attr( $this->get_field_id( 'size' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'size' ) ); ?>" value="<?php echo esc_attr( $instance['size'] ); ?>" style="width:100%;" />
 		</p><?php
 	}
 }
