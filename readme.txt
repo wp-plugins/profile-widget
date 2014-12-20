@@ -4,8 +4,9 @@ Donate link: https://geek.hellyer.kiwi/donate/
 Tags: widget, profile, avatar
 Requires at least: 3.4
 Tested up to: 4.2
-Stable tag: 1.1
 Text Domain: profile-widget
+Stable tag: 1.1
+
 
 
 A WordPress widget for displaying user profile information on single post pages.
