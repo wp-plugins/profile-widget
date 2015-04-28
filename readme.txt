@@ -3,7 +3,7 @@ Contributors: ryanhellyer
 Donate link: https://geek.hellyer.kiwi/donate/
 Tags: widget, profile, avatar
 Requires at least: 3.4
-Tested up to: 4.2
+Tested up to: 4.4
 Text Domain: profile-widget
 Stable tag: 1.1
 
